@@ -1,40 +1,21 @@
-# Library template
+# `@mapl/body`
+Body parsers for `@mapl/app`.
 
-An NPM library template using Bun.
+```ts
+import { json } from '@mapl/body';
 
-## Scripts
-
-All script sources.
-
-### [Build](./scripts/build.ts)
-
-Emit `.js` and `.d.ts` files to [`lib`](./lib).
-
-### [Publish](./scripts/publish.ts)
-
-Move [`package.json`](./package.json), [`README.md`](./README.md) to [`lib`](./lib) and publish the package.
-
-### [Bench](./scripts/bench.ts)
-
-Run files that ends with `.bench.ts` extension.
-
-## Package scripts
-
-All specified scripts in [`package.json`](./package.json).
-
-```bash
-# Build and run tests
-bun build:test
-
-# Build and run benchmarks
-bun build:bench
-
-# Build and publish the package
-bun build:publish
-
-# Lint
-bun lint
-
-# Lint and fix if possible
-bun lint:fix
+router()
+  // Set the type for the request body
+  .macro(json({
+    props: {
+      name: {
+        type: 'string',
+        minLength: 3,
+        maxLength: 32
+      },
+      age: { type: 'int' }
+    }
+  }))
+  // Return the username with age from the request body
+  .post('/name', (c) => `${c.body.name} - ${c.body.age}`);
 ```

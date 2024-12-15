@@ -1,5 +1,5 @@
 {
-  "name": "lib-template",
+  "name": "@mapl/body",
   "version": "0.0.1",
   "description": "Example package",
   "keywords": [],
@@ -15,6 +15,7 @@
     "lint:fix": "eslint ./src --fix"
   },
   "devDependencies": {
+    "@mapl/app": "^0.2.2",
     "@stylistic/eslint-plugin": "latest",
     "@types/bun": "latest",
     "eslint": "latest",
@@ -23,5 +24,7 @@
     "typescript": "latest",
     "typescript-eslint": "latest"
   },
-  "dependencies": {}
+  "dependencies": {
+    "stnl": "^0.0.2"
+  }
 }
