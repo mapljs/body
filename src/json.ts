@@ -12,10 +12,10 @@ export default (schema: TSchema, ctx: MiddlewareState, state: AppCompilerState):
   // Check the body
   ctx[0] += `${createHolder(ctx)}=await ${REQ}.json().catch(()=>{});if(${
     validateJson(schema, HOLDER, state.declarationBuilders as any)
-  })${
+  }){${
     // eslint-disable-next-line
     (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? RET_400
-  }`;
+  }}`;
 
   // Set the body
   createEmptyContext(ctx);
