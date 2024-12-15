@@ -7,16 +7,15 @@ import type { AppCompilerState } from '@mapl/app/types/compiler.js';
 import { invalidBodyException } from './exception.js';
 
 export default (schema: TSchema, ctx: MiddlewareState, state: AppCompilerState): void => {
-  const builder: string[] = [];
   createAsyncScope(ctx);
 
   // Check the body
-  ctx[0] += `${createHolder(ctx)}=await ${REQ}.json().catch(()=>{});if(`;
-  validateJson(schema, HOLDER, builder, state.declarationBuilders as any);
-  ctx[0] += builder.join('');
-  ctx[0] += ')';
-  // eslint-disable-next-line
-  ctx[0] += (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? RET_400;
+  ctx[0] += `${createHolder(ctx)}=await ${REQ}.json().catch(()=>{});if(${
+    validateJson(schema, HOLDER, state.declarationBuilders as any)
+  })${
+    // eslint-disable-next-line
+    (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? RET_400
+  }`;
 
   // Set the body
   createEmptyContext(ctx);

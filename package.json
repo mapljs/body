@@ -1,7 +1,7 @@
 {
   "name": "@mapl/body",
-  "version": "0.0.1",
-  "description": "Example package",
+  "version": "0.0.3",
+  "description": "Body parsers for Mapl",
   "keywords": [],
   "license": "MIT",
   "type": "module",
@@ -25,6 +25,6 @@
     "typescript-eslint": "latest"
   },
   "dependencies": {
-    "stnl": "^0.0.2"
+    "stnl": "^0.0.3"
   }
 }
