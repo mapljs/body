@@ -4,9 +4,6 @@ import type { GenericMacro, SchemaMacro, StreamMacro } from './types.js';
 export * from './exception.js';
 export type * from './types.js';
 
-// Don't re-parse the body ever
-const hash = Symbol();
-
 /**
  * Create the JSON body validator macro
  * @param schema
@@ -14,7 +11,7 @@ const hash = Symbol();
 export const json = <T extends TSchema>(schema: T): SchemaMacro<T> => ({
   loadSource: `${import.meta.dir}/json.js`,
   options: schema,
-  hash
+  hash: Symbol()
 } as SchemaMacro<T>);
 
 /**
@@ -23,7 +20,7 @@ export const json = <T extends TSchema>(schema: T): SchemaMacro<T> => ({
 export const text = {
   loadSource: `${import.meta.dir}/generic.js`,
   options: 'text',
-  hash
+  hash: Symbol()
 } as GenericMacro<'text'>;
 
 /**
@@ -32,7 +29,7 @@ export const text = {
 export const arrayBuffer = {
   loadSource: `${import.meta.dir}/generic.js`,
   options: 'arrayBuffer',
-  hash
+  hash: Symbol()
 } as GenericMacro<'arrayBuffer'>;
 
 /**
@@ -41,7 +38,7 @@ export const arrayBuffer = {
 export const bytes = {
   loadSource: `${import.meta.dir}/generic.js`,
   options: 'bytes',
-  hash
+  hash: Symbol()
 } as GenericMacro<'bytes'>;
 
 /**
@@ -50,7 +47,7 @@ export const bytes = {
 export const blob = {
   loadSource: `${import.meta.dir}/generic.js`,
   options: 'blob',
-  hash
+  hash: Symbol()
 } as GenericMacro<'blob'>;
 
 /**
@@ -59,5 +56,5 @@ export const blob = {
 export const stream = {
   loadSource: `${import.meta.dir}/stream.js`,
   options: null,
-  hash
+  hash: Symbol()
 } as StreamMacro;
