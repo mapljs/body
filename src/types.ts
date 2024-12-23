@@ -9,6 +9,7 @@ export interface GenericMacroMap {
   arrayBuffer: ArrayBuffer;
   bytes: Uint8Array;
   blob: Blob;
-  stream: ReadableStream;
 }
 export type GenericMacro<T extends keyof GenericMacroMap> = Macro<T, Router<{ body: GenericMacroMap[T] }, [], []>>;
+
+export type StreamMacro = Macro<null, Router<{ body: ReadableStream }, [], []>>;

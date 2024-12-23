@@ -1,5 +1,5 @@
 import type { TSchema } from 'stnl';
-import type { GenericMacro, SchemaMacro } from './types.js';
+import type { GenericMacro, SchemaMacro, StreamMacro } from './types.js';
 
 export * from './exception.js';
 export type * from './types.js';
@@ -58,6 +58,6 @@ export const blob = {
  */
 export const stream = {
   loadSource: `${import.meta.dir}/stream.js`,
-  options: null as unknown as 'stream',
+  options: null,
   hash
-} as GenericMacro<'stream'>;
+} as StreamMacro;
