@@ -2,4 +2,13 @@ import type { Macro } from '@mapl/app/macro.js';
 import type { Router } from '@mapl/app';
 import type { InferSchema, TSchema } from 'stnl';
 
-export type TMacro<T extends TSchema> = Macro<T, Router<{ body: InferSchema<T> }, [], []>>;
+export type SchemaMacro<T extends TSchema> = Macro<T, Router<{ body: InferSchema<T> }, [], []>>;
+
+export interface GenericMacroMap {
+  text: string;
+  arrayBuffer: ArrayBuffer;
+  bytes: Uint8Array;
+  blob: Blob;
+  stream: ReadableStream;
+}
+export type GenericMacro<T extends keyof GenericMacroMap> = Macro<T, Router<{ body: GenericMacroMap[T] }, [], []>>;
