@@ -5,6 +5,8 @@ import { resolve } from 'node:path/posix';
 import { transpileDeclaration } from 'typescript';
 import tsconfig from '../tsconfig.json';
 
+import * as constants from './constants.js';
+
 // Constants
 const ROOTDIR = resolve(import.meta.dir, '..');
 const SOURCEDIR = `${ROOTDIR}/src`;
@@ -20,7 +22,11 @@ const transpiler = new Bun.Transpiler({
 
   // Lighter output
   minifyWhitespace: true,
-  treeShaking: true
+  treeShaking: true,
+
+  // Load constants
+  define: Object.fromEntries(Object.entries(constants)
+    .map((entry) => [`constants.${entry[0]}`, JSON.stringify(entry[1])]))
 });
 
 for (const path of new Bun.Glob('**/*.ts').scanSync(SOURCEDIR)) {
