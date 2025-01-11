@@ -10,28 +10,29 @@ import { staticException, type StaticException } from '@mapl/app';
 
 export const invalidBodyException: StaticException = staticException();
 
+// Don't recreate the callback
+const jsonLoad = (schema: TSchema, ctx: MiddlewareState, state: AppCompilerState): void => {
+  createAsyncScope(ctx);
+  setMinimumHolders(ctx, 1);
+
+  // Check the body
+  ctx[0] += `${constants.HOLDER_0}=await ${constants.REQ}.json().catch(()=>{});if(${validateJson(schema, constants.HOLDER_0, state.declarationBuilders as string[])
+  }){${
+    // eslint-disable-next-line
+    (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? constants.RET_400
+  }}`;
+
+  // Set the body
+  createEmptyContext(ctx);
+  ctx[0] += `${constants.CTX}.body=${constants.HOLDER_0};`;
+};
+
 /**
  * Create the JSON body validator macro
  */
 export const json = <T extends TSchema>(options: T): SchemaMacro<T> => ({
-  loadSource: (schema: TSchema, ctx: MiddlewareState, state: AppCompilerState): void => {
-    createAsyncScope(ctx);
-    setMinimumHolders(ctx, 1);
-
-    // Check the body
-    ctx[0] += `${constants.HOLDER_0}=await ${constants.REQ}.json().catch(()=>{});if(${
-      validateJson(schema, constants.HOLDER_0, state.declarationBuilders as string[])
-    }){${
-      // eslint-disable-next-line
-      (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? constants.RET_400
-    }}`;
-
-    // Set the body
-    createEmptyContext(ctx);
-    ctx[0] += `${constants.CTX}.body=${constants.HOLDER_0};`;
-  },
-  options,
-  hash: Symbol()
+  loadSource: jsonLoad,
+  options
 } as SchemaMacro<T>);
 
 // Load a generic parser
@@ -55,8 +56,7 @@ const genericLoad = (parser: string, ctx: MiddlewareState): void => {
  */
 export const text = {
   loadSource: genericLoad,
-  options: 'text',
-  hash: Symbol()
+  options: 'text'
 } as GenericMacro<'text'>;
 
 /**
@@ -64,8 +64,7 @@ export const text = {
  */
 export const arrayBuffer = {
   loadSource: genericLoad,
-  options: 'arrayBuffer',
-  hash: Symbol()
+  options: 'arrayBuffer'
 } as GenericMacro<'arrayBuffer'>;
 
 /**
@@ -73,8 +72,7 @@ export const arrayBuffer = {
  */
 export const bytes = {
   loadSource: genericLoad,
-  options: 'bytes',
-  hash: Symbol()
+  options: 'bytes'
 } as GenericMacro<'bytes'>;
 
 /**
@@ -82,8 +80,7 @@ export const bytes = {
  */
 export const blob = {
   loadSource: genericLoad,
-  options: 'blob',
-  hash: Symbol()
+  options: 'blob'
 } as GenericMacro<'blob'>;
 
 /**
@@ -102,7 +99,5 @@ export const stream = {
     // Set the body
     createEmptyContext(ctx);
     ctx[0] += `${constants.CTX}.body=${constants.HOLDER_0};`;
-  },
-  options: null,
-  hash: Symbol()
+  }
 } as StreamMacro;
