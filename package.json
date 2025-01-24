@@ -1,6 +1,6 @@
 {
   "name": "@mapl/body",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Body parsers for Mapl",
   "keywords": [],
   "license": "MIT",
@@ -25,6 +25,6 @@
     "typescript-eslint": "latest"
   },
   "peerDependencies": {
-    "stnl": "0.1"
+    "stnl": "0.3"
   }
 }

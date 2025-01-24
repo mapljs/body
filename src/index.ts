@@ -1,5 +1,5 @@
 import type { TSchema } from 'stnl';
-import validateJson from 'stnl/compilers/validate-json.js';
+import validateJson from 'stnl/compilers/validate-json/index.js';
 
 import type { GenericMacro, SchemaMacro, StreamMacro } from './types.js';
 export type * from './types.js';

@@ -15,7 +15,7 @@ app
         minLength: 3,
         maxLength: 32
       },
-      age: { type: 'int' }
+      age: 'i8'
     }
   }))
   // Return the username with age from the request body
