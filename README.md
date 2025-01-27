@@ -25,19 +25,7 @@ app
 ## Other parsers
 These parsers don't require a schema for validation.
 ```ts
-import { text, arrayBuffer, bytes, blob, stream } from '@mapl/body';
-
-// Parse body to string
-app.macro(text);
-
-// Parse body to ArrayBuffer
-app.macro(arrayBuffer);
-
-// Parse body to UInt8Array
-app.macro(bytes);
-
-// Parse body to Blob
-app.macro(blob);
+import { stream } from '@mapl/body';
 
 // Parse body to ReadableStream
 app.macro(stream);

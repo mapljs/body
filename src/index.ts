@@ -1,7 +1,7 @@
 import type { TSchema } from 'stnl';
 import validateJson from 'stnl/compilers/validate-json/index.js';
 
-import type { GenericMacro, SchemaMacro, StreamMacro } from './types.js';
+import type { SchemaMacro, StreamMacro } from './types.js';
 export type * from './types.js';
 
 import { createAsyncScope, createEmptyContext, setMinimumHolders, type MiddlewareState } from '@mapl/app/compiler/middleware.js';
@@ -34,46 +34,6 @@ export const json = <T extends TSchema>(options: T): SchemaMacro<T> => ({
   loadSource: jsonLoad,
   options
 } as SchemaMacro<T>);
-
-// Load a generic parser
-const genericLoad = (parser: string, ctx: MiddlewareState): void => {
-  // Set the body
-  createAsyncScope(ctx);
-  createEmptyContext(ctx);
-  ctx[0] += `${constants.CTX}.body=await ${constants.REQ}.${parser}();`;
-};
-
-/**
- * A text body parser macro
- */
-export const text = {
-  loadSource: genericLoad,
-  options: 'text'
-} as GenericMacro<'text'>;
-
-/**
- * A arrayBuffer body parser macro
- */
-export const arrayBuffer = {
-  loadSource: genericLoad,
-  options: 'arrayBuffer'
-} as GenericMacro<'arrayBuffer'>;
-
-/**
- * A bytes body parser macro
- */
-export const bytes = {
-  loadSource: genericLoad,
-  options: 'bytes'
-} as GenericMacro<'bytes'>;
-
-/**
- * A blob body parser macro
- */
-export const blob = {
-  loadSource: genericLoad,
-  options: 'blob'
-} as GenericMacro<'blob'>;
 
 /**
  * A blob body parser macro
