@@ -37,18 +37,10 @@ export const json = <T extends TSchema>(options: T): SchemaMacro<T> => ({
 
 // Load a generic parser
 const genericLoad = (parser: string, ctx: MiddlewareState): void => {
-  createAsyncScope(ctx);
-  setMinimumHolders(ctx, 1);
-
-  // Check the body
-  ctx[0] += `${constants.HOLDER_0}=await ${constants.REQ}.${parser}().catch(()=>null);if(${constants.HOLDER_0}===null){${
-    // eslint-disable-next-line
-    (ctx[4][invalidBodyException[1]] ?? ctx[4][0])?.(ctx[1] === null, true) ?? constants.RET_400
-  }}`;
-
   // Set the body
+  createAsyncScope(ctx);
   createEmptyContext(ctx);
-  ctx[0] += `${constants.CTX}.body=${constants.HOLDER_0};`;
+  ctx[0] += `${constants.CTX}.body=await ${constants.REQ}.${parser}();`;
 };
 
 /**
